@@ -5,9 +5,9 @@
     "type": "module",
     "main": "index.js",
     "scripts": {
-        "devStart": "nodemon server.js",
+        "devStart": "NODE_ENV=dev nodemon server.js",
         "authDevStart": "nodemon authServer.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "NODE_ENV=test c8 mocha './tests/**/*.test.js' --exit --timeout=5000"
     },
     "keywords": [],
     "author": "",
