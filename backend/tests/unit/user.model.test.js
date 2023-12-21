@@ -29,4 +29,28 @@ describe('User Model Tests', () => {
         done()
 
     })
+
+    it('should create another instance of User', (done) => {
+
+        // Arrange
+        const newUser = {
+            firstName: "Joe",
+            lastName: "Bloggs",
+            userName: "BloJoe",
+            email: "joe@test.com",
+            password: "password",
+            repeatedPassword: "password"
+        }
+        const user = new User(newUser);
+
+        console.log(user);
+
+        expect(user).to.have.property("firstName").to.equal(newUser.firstName);
+        expect(user).to.have.property("lastName").to.equal(newUser.lastName);
+        expect(user).to.have.property("userName").to.equal(newUser.userName);
+        expect(user).to.have.property("email").to.equal(newUser.email);
+        expect(user).to.have.property("_id").to.a('object')
+        done()
+
+    })
 })
