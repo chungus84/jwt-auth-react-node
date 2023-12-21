@@ -19,8 +19,7 @@ describe('User Model Tests', () => {
         // Act
         const user = new User(newUser);
 
-        console.log(user);
-
+        // Assert
         expect(user).to.have.property("firstName").to.equal(newUser.firstName);
         expect(user).to.have.property("lastName").to.equal(newUser.lastName);
         expect(user).to.have.property("userName").to.equal(newUser.userName);
@@ -39,12 +38,13 @@ describe('User Model Tests', () => {
             userName: "BloJoe",
             email: "joe@test.com",
             password: "password",
-            repeatedPassword: "password"
+
         }
+
+        // Act
         const user = new User(newUser);
 
-        console.log(user);
-
+        // Assert
         expect(user).to.have.property("firstName").to.equal(newUser.firstName);
         expect(user).to.have.property("lastName").to.equal(newUser.lastName);
         expect(user).to.have.property("userName").to.equal(newUser.userName);
@@ -52,5 +52,19 @@ describe('User Model Tests', () => {
         expect(user).to.have.property("_id").to.a('object')
         done()
 
+    })
+
+    it('should return errors for each field not filled in ', async () => {
+
+        // Arrange
+        const testUser = new User({})
+
+        await testUser.validate().catch(err => {
+            expect(err.errors.firstName).to.exist;
+            expect(err.errors.lastName).to.exist;
+            expect(err.errors.userName).to.exist;
+            expect(err.errors.email).to.exist;
+            expect(err.errors.password).to.exist;
+        })
     })
 })
