@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './Components/Home'
 import Login from './Components/Login'
 import SignUp from './Components/SignUp';
+import Header from './Components/Header';
 import './App.css'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
 
             <h1>It works and you found me!</h1>
             <div className="container-fluid">
+                <Header />
                 <Routes>
                     <Route index element={<Home />} />
                     <Route path="/home" element={<Home />} />
