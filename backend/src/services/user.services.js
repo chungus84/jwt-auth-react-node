@@ -33,6 +33,8 @@ export const login = async (user) => {
         const userDetails = await User.findOne({ email: user.email });
         // console.log(userDetails.password);
         // console.log(bcrypt.compareSync(user.password, userDetails.password));
+
+        if (!userDetails) return { message: `User not found` }
         if (userDetails && (bcrypt.compareSync(user.password, userDetails.password))) {
             const userName = { name: user.email }
             const accessToken = generateToken(userName)
