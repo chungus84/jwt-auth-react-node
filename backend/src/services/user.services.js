@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import Token from "../models/token.model.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -28,25 +29,25 @@ export const addNewUser = async (user) => {
 }
 
 export const login = async (user) => {
-    console.log(user);
+    // console.log(user);
     try {
         const userDetails = await User.findOne({ email: user.email });
-        // console.log(userDetails.password);
-        // console.log(bcrypt.compareSync(user.password, userDetails.password));
-
+        console.log(userDetails);
         if (!userDetails) return { message: `User not found` }
         if (userDetails && (bcrypt.compareSync(user.password, userDetails.password))) {
-            const userName = { name: user.email }
+            const userName = { name: userDetails.userName }
             const accessToken = generateToken(userName)
+            const refreshToken = jwt.sign(userName, process.env.REFRESH_TOKEN_SECRET)
 
-            // console.log("password matches");
-            // console.log(userDetails);
-            // return userDetails
+            await Token.create({ token: refreshToken });
+
+
 
             return {
                 _id: userDetails._id,
                 userName: userDetails.userName,
-                accessToken: accessToken
+                accessToken: accessToken,
+                refreshToken: refreshToken
             }
 
         } else {

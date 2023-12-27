@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { authHeader } from "./authHeaders";
+
 
 export const loginUser = async (user) => {
     try {
@@ -19,4 +21,33 @@ export const loginUser = async (user) => {
             }
         }
     }
+}
+
+export const getProfile = async () => {
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_AUTH_URI}/profile`, { headers: authHeader() });
+
+        return res
+
+    } catch (err) {
+        // console.log(err);
+        // console.log(authHeader());
+        if (err.response.status === 403) {
+            const refreshRes = await axios.post(`${import.meta.env.VITE_AUTH_URI}/token`, authHeader())
+            // console.log(refreshRes);
+            if (refreshRes.data.accessToken) {
+                localStorage.setItem('user', JSON.stringify(refreshRes.data))
+            }
+            const res = await axios.get(`${import.meta.env.VITE_AUTH_URI}/profile`, { headers: authHeader() })
+            return res
+        }
+        return {
+            status: err.response?.status,
+            error: {
+                type: `get`,
+                message: err.response?.status
+            }
+        }
+    }
+
 }
