@@ -1,5 +1,5 @@
 import { generateToken } from "../helper.js";
-import { tokenRefresh } from "../services/token.services.js"
+import { tokenRefresh, removeToken } from "../services/token.services.js"
 import jwt from 'jsonwebtoken';
 
 export const refreshToken = async (req, res) => {
@@ -11,7 +11,7 @@ export const refreshToken = async (req, res) => {
         jwt.verify(token.token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
 
             // console.log(err);
-            console.log(user);
+            // console.log(user);
             if (err) return res.status(403)
             const userName = { name: user.name }
             const accessToken = generateToken(userName)
@@ -27,5 +27,16 @@ export const refreshToken = async (req, res) => {
         // res.status(200).json(token)
     } catch (err) {
         res.status(400).json(err);
+    }
+}
+
+export const deleteToken = async (req, res) => {
+
+    try {
+        const tokenDeleted = await removeToken(req.headers['refreshtoken'])
+        res.status(204).json(tokenDeleted)
+    } catch (err) {
+        res.status(400).json(err)
+
     }
 }

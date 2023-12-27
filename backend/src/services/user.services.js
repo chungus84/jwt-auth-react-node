@@ -32,7 +32,7 @@ export const login = async (user) => {
     // console.log(user);
     try {
         const userDetails = await User.findOne({ email: user.email });
-        console.log(userDetails);
+        // console.log(userDetails);
         if (!userDetails) return { message: `User not found` }
         if (userDetails && (bcrypt.compareSync(user.password, userDetails.password))) {
             const userName = { name: userDetails.userName }

@@ -1,10 +1,10 @@
 import { getCurrentUser } from "../asyncFunctions/helperFunctions"
 
 const LoggedInPage = ({ data }) => {
-    console.log(data);
+    // console.log(data);
 
     const currentUser = getCurrentUser();
-    console.log(currentUser);
+    // console.log(currentUser);
     return (
         <>
             <h2>LoggedInPage</h2>

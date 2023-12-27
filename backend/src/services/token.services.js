@@ -13,3 +13,12 @@ export const tokenRefresh = async (token) => {
         throw err;
     }
 }
+
+export const removeToken = async (token) => {
+    try {
+        const tokenToRemove = await Token.deleteOne({ token: token })
+        return tokenToRemove
+    } catch (err) {
+        throw err;
+    }
+}

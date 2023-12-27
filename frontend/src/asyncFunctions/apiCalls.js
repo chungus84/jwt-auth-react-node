@@ -6,7 +6,7 @@ import { authHeader } from "./authHeaders";
 export const loginUser = async (user) => {
     try {
         const res = await axios.post(`${import.meta.env.VITE_AUTH_URI}/login`, user);
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.accessToken) {
             localStorage.setItem(`user`, JSON.stringify(res.data))
         }
@@ -50,4 +50,20 @@ export const getProfile = async () => {
         }
     }
 
+}
+
+export const logOutUser = async (user) => {
+    console.log(user);
+    try {
+        const tokenDeleted = await axios.delete(`${import.meta.env.VITE_AUTH_URI}/token`, { headers: authHeader() })
+        return tokenDeleted
+    } catch (err) {
+        return {
+            status: err.response?.status,
+            error: {
+                type: `post`,
+                message: err.response?.status
+            }
+        }
+    }
 }

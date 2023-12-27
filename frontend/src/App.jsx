@@ -7,7 +7,7 @@ import SignUp from './Components/SignUp';
 import Header from './Components/Header';
 import LoggedInPage from './Components/LoggedInPage.jsx';
 import './App.css'
-import { loginUser, getProfile } from './asyncFunctions/apiCalls.js';
+import { loginUser, getProfile, logOutUser } from './asyncFunctions/apiCalls.js';
 import { getCurrentUser, logout } from './asyncFunctions/helperFunctions.js';
 
 function App() {
@@ -41,15 +41,18 @@ function App() {
 
     const getPostsHandler = async () => {
         const externalDataCall = await getProfile();
-        console.log(externalDataCall);
-        console.log(externalDataCall.data[0].title);
+        // console.log(externalDataCall);
+        // console.log(externalDataCall.data[0].title);
         if (externalDataCall.data[0]?.title) {
             setPosts(externalDataCall.data[0].title)
-            console.log(posts);
+            // console.log(posts);
         }
     }
 
     const logOut = () => {
+        const currentUser = getCurrentUser()
+        // console.log(user);
+        logOutUser(currentUser)
         logout();
     }
 
@@ -57,6 +60,7 @@ function App() {
     useEffect(() => {
 
         const currentUser = getCurrentUser()
+        console.log(currentUser);
 
         // console.log(profile);
         if (currentUser) {
